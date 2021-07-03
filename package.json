@@ -1,0 +1,31 @@
+{
+  "name": "react-messenger-chat-plugin",
+  "version": "1.0.0",
+  "description": "An react component for Facebook's Messenger Chat Plugin with extra Customer Chat SDK features",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hueindahaus/react-messenger-chat-plugin.git"
+  },
+  "keywords": [
+    "react",
+    "messenger",
+    "chat",
+    "plugin",
+    "customer",
+    "chat"
+  ],
+  "author": "Alexander Charles Huang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hueindahaus/react-messenger-chat-plugin/issues"
+  },
+  "homepage": "https://github.com/hueindahaus/react-messenger-chat-plugin#readme",
+  "devDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
