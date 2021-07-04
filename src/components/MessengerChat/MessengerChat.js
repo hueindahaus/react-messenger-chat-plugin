@@ -13,6 +13,7 @@ let globalDebugModeFlag = false;
 
 const MessengerChat = ({
     pageId, 
+    language='en_US',
     themeColor, 
     height,
     autoExpand = true,
@@ -25,7 +26,8 @@ const MessengerChat = ({
     onMessengerHide,
     onMessengerDialogShow,
     onMessengerDialogHide,
-    debugMode = false
+    debugMode = false,
+    version = 'v11.0',
 
 }) => {
   
@@ -88,7 +90,7 @@ const MessengerChat = ({
         window.fbAsyncInit = function () {
           FB.init({
             xfbml: true,
-            version: 'v11.0',
+            version: version,
           });
 
           FB.Event.subscribe('customerchat.load', () => {if(onMessengerLoad) onMessengerLoad()});
@@ -130,7 +132,7 @@ const MessengerChat = ({
           // eslint-disable-next-line prefer-const
           js = d.createElement(s);
           js.id = id;
-          js.src = 'https://connect.facebook.net/sv_SE/sdk/xfbml.customerchat.js';
+          js.src = `https://connect.facebook.net/${language}/sdk/xfbml.customerchat.js`;
           fjs.parentNode.insertBefore(js, fjs);
         })(document, 'script', 'facebook-jssdk');
       } catch (err) {
@@ -247,6 +249,7 @@ export const hideDialog = () => {
 
 MessengerChat.propTypes = {
     pageId: PropTypes.string.isRequired,
+    language: PropTypes.string,
     themeColor: PropTypes.string,
     height: PropTypes.number,
     autoExpand: PropTypes.bool,
@@ -260,6 +263,7 @@ MessengerChat.propTypes = {
     onMessengerDialogShow: PropTypes.func,
     onMessengerDialogHide: PropTypes.func,
     debugMode: PropTypes.bool,
+    version: PropTypes.string,
 
 
     custom: function(props) {

@@ -7,6 +7,7 @@ const stories = storiesOf('App Test', module);
 stories.add('App', () => {
     return <MessengerChat 
     pageId='100580741804518' 
+    language='sv_SE'
     themeColor={'#000000'} 
     height={24} 
     loggedInGreeting='loggedInGreeting' 
