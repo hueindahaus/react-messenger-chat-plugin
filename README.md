@@ -1,2 +1,107 @@
 # react-messenger-chat-plugin
- todo
+ 
+ [![npm](https://img.shields.io/npm/v/react-messenger-chat-plugin.svg)](https://www.npmjs.com/package/react-messenger-chat-plugin)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+![size](https://img.shields.io/bundlephobia/min/react-messenger-chat-plugin?color=success)
+![language](https://img.shields.io/github/languages/top/hueindahaus/react-messenger-chat-plugin?color=ff69b4)
+
+![]()
+![]()
+
+## Installation 
+```sh
+npm install react-messenger-chat-plugin
+```
+
+## Requirements
+
+First, **whitelist** your domain to be eligible to use the messenger chat in facebooks page settings. 
+
+> **Facebook page** > **Settings** > **Inbox** (message icon) > **Chat plugin tab** > **domain**
+
+:warning: **NOTE:** Facebook doesn't allow to whitelist localhost, so for dev-mode use a wrapper like [ngrok](https://ngrok.com/).
+
+## Usage
+
+### MessengerChat
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import MessengerChat from 'react-messenger-customer-chat';
+
+ReactDOM.render(
+  <MessengerChat 
+    pageId='123456789101112' 
+    language='en_US'
+    themeColor={'#F2F3G2'} 
+    height={24} 
+    loggedInGreeting='Hello logged in user!' 
+    loggedOutGreeting='Hello stranger!' 
+    autoExpand={true} 
+    debugMode={false}
+    onMessengerExpand={() => {console.log('onMessengerExpand')}}
+    onMessengerHide={() => {console.log('onMessengerHide')}}
+    onMessengerDialogShow={() => {console.log('onMessengerDialogShow')}}
+    onMessengerDialogHide={() => {console.log('onMessengerDialogHide')}}
+    />;,
+  document.getElementById('demo')
+);
+```
+
+| Attribute     |  Description       |
+| ------------- |:-------------:|
+| pageId (string) | **Required** field! Id of page which can be found on the facebook page |are neat      |
+| language (string)  | Language locale, e.g. 'en_US' for english or 'sv_SE' for swedish |
+| themeColor (string) | Hexcode color of the theme color   |
+| height (integer) | Pixel height from bottom of the page |     
+| autoExpand (bool) | Smart autoexpanding feature which expands the dialog for each new session. NOTE: Will not expand on refresh or back/forward-load, but will remember UI state |     
+| loggedInGreeting (string) | Greeting message displayed if user is logged in |     
+| loggedOutGreeting (strin) | Greeting message displayed if user is logged out  |     
+| ref (string) |  Addittional context to be passed in requests |     
+| onMessengerMounted (function) | Callback which is called when the messenger chat is mounted |     
+| onMessengerLoad (function) | Callback which is called on load |     
+| onMessengerExpand (function) | Callback which is called when the component is shown. NOTE: missleading name as this handles the whole component not just when the chatbox is expanded   |     
+| onMessengerHide (function)| Callback which is called when the component is hidden    |     
+| onMessengerDialogShow (function)| Callback which is called each time the dialog is expanded  |     
+| onMessengerDialogHide (function)| Callback which is called each time the dialog is hidden   |     
+| debugMode (bool) |  Enables debug mode which console.logs every event in the component  |     
+| version | Version of the messenger chat |   
+
+> :warning: **NOTE:** some attributes can be controlled from your facebook page messenger chat plugin configurations. These are by default overriden by the props, so if you want more control from facebook -> populate less props.
+
+### MessengerChat control functions
+This package also supports control functions for the messenger chat which can be accessed globally. The control functions will only work after the messenger chat has succesfully mounted.
+```js
+import MessengerChat, {expandMessenger, hideMessenger, showDialog, hideDialog, setMessengerHeight} from './MessengerChat';
+
+function App() {
+
+  return (
+    <div className="App">
+      <button onClick={() => {expandMessenger(true)}}>expand messenger</button>
+      <button onClick={() => {hideMessenger()}}>hide messenger</button>
+      <button onClick={() => {showDialog()}}>show dialog</button>
+      <button onClick={() => {hideDialog()}}>hide dialog</button>
+      <button onclick={() => {setMessengerHeight(100)}}>set chat 100px from bottom<button>
+
+      <MessengerChat 
+        pageId='100580741804518' 
+        />
+    </div>
+  );
+}
+
+export default App;
+```
+
+| Function        | Description           |
+| ------------- |:-------------:|
+| setMessengerHeight(height: integer)     | Immediately sets height of messenger chat in pixels from bottom of the page |
+| expandMessenger(shouldShowDialog: bool) | Shows the whole component (misleading name since it does not only expand the dialog) |
+| hideMessenger() | Hides the whole component |
+| showDialog() | Expands dialog |
+| hideDialog() | Hides dialog |
+
+## Official docs
+Facebook provides official docs for [messenger customer chat plugin](https://developers.facebook.com/docs/messenger-platform/discovery/facebook-chat-plugin/) and [chat plugin sdk](https://developers.facebook.com/docs/messenger-platform/discovery/customer-chat-plugin/sdk/) which are the bases for this package.
