@@ -3,9 +3,12 @@
  <p align="center">
  <img width="220" src="https://user-images.githubusercontent.com/45295311/124386303-16e4b280-dcda-11eb-9470-2ee68e7fc209.png">
  <img width="220" src="https://user-images.githubusercontent.com/45295311/124386301-164c1c00-dcda-11eb-83fe-aa50c9297a7f.png">
+</p>
+
+<p align="center">
  <img width="220" height="400" src="https://user-images.githubusercontent.com/45295311/124386300-164c1c00-dcda-11eb-8992-b0b96bf32f53.png">
  <img width="220" height="400" src="https://user-images.githubusercontent.com/45295311/124386299-15b38580-dcda-11eb-9e3d-19e368d1cfc1.png">
-</p>
+ </p>
 
 <br />
 
@@ -125,4 +128,9 @@ export default App;
 <br />
 
 ## Official docs <a name="official-docs" />
-Facebook provides official docs for [messenger customer chat plugin](https://developers.facebook.com/docs/messenger-platform/discovery/facebook-chat-plugin/) and [chat plugin sdk](https://developers.facebook.com/docs/messenger-platform/discovery/customer-chat-plugin/sdk/) which are the bases for this package.
+Facebook provides official docs for [messenger customer chat plugin](https://developers.facebook.com/docs/messenger-platform/discovery/facebook-chat-plugin/) and [chat plugin sdk](https://developers.facebook.com/docs/messenger-platform/discovery/customer-chat-plugin/sdk/) which the package is based on.
+
+<br />
+
+## Author
+My name is Alexander Huang and you can find my linkedin [here](https://www.linkedin.com/in/alexander-huang-4370991a3/)! Don't hesitate to contact and thank you for tuning in :raised_hands:
