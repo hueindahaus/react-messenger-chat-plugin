@@ -11,7 +11,7 @@ let isMounted = false;
 // added to be able to access debug mode outside component
 let globalDebugModeFlag = false;
 
-const MessengerChat = ({
+export const MessengerChat = ({
     pageId, 
     language='en_US',
     themeColor, 
@@ -274,5 +274,3 @@ MessengerChat.propTypes = {
         }
     }
 }
-
-  export default MessengerChat;
