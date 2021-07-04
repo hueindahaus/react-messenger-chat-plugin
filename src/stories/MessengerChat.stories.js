@@ -14,7 +14,7 @@ stories.add('App', () => {
     loggedOutGreeting='loggedOutGreeting' 
     autoExpand={true} 
     debugMode={false}
-    onMessengerExpand={() => {console.log('onMessengerExpand')}}
+    onMessengerShow={() => {console.log('onMessengerShow')}}
     onMessengerHide={() => {console.log('onMessengerHide')}}
     onMessengerDialogShow={() => {console.log('onMessengerDialogShow')}}
     onMessengerDialogHide={() => {console.log('onMessengerDialogHide')}}

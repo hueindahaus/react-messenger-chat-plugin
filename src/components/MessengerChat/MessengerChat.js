@@ -22,7 +22,7 @@ const MessengerChat = ({
     ref, 
     onMessengerMounted, 
     onMessengerLoad,
-    onMessengerExpand,
+    onMessengerShow,
     onMessengerHide,
     onMessengerDialogShow,
     onMessengerDialogHide,
@@ -114,7 +114,7 @@ const MessengerChat = ({
             isMounted = true;
           });
 
-          FB.Event.subscribe('customerchat.show', () => {if(onMessengerExpand) onMessengerExpand()});
+          FB.Event.subscribe('customerchat.show', () => {if(onMessengerShow) onMessengerShow()});
 
           FB.Event.subscribe('customerchat.hide', () => {if(onMessengerHide) onMessengerHide()});
 
@@ -182,9 +182,9 @@ export const setMessengerHeight = (height) => {
     }
 };
 
-export const expandMessenger = (shouldShowDialog) => {
+export const showMessenger = (shouldShowDialog) => {
     if(globalDebugModeFlag){
-        console.log(`[react-messenger-chat-plugin] expanding messenger with argument "shouldShowDialog": ${shouldShowDialog}`)
+        console.log(`[react-messenger-chat-plugin] showing messenger with argument "shouldShowDialog": ${shouldShowDialog}`)
     }
 
     try {
@@ -258,7 +258,7 @@ MessengerChat.propTypes = {
     ref: PropTypes.string,
     onMessengerMounted: PropTypes.func,
     onMessengerLoad: PropTypes.func,
-    onMessengerExpand: PropTypes.func,
+    onMessengerShow: PropTypes.func,
     onMessengerHide: PropTypes.func,
     onMessengerDialogShow: PropTypes.func,
     onMessengerDialogHide: PropTypes.func,

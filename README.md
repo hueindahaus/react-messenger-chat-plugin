@@ -13,13 +13,18 @@
 npm install react-messenger-chat-plugin
 ```
 
+## Table of contents
+
+* [Requirements](#Requirements)
+* todo
+
 ## Requirements
 
 First, **whitelist** your domain to be eligible to use the messenger chat in facebooks page settings. 
 
-> **Facebook page** > **Settings** > **Inbox** (message icon) > **Chat plugin tab** > **domain**
+> **Facebook page** > **Settings** > **Messaging** (in sidebar) > **Add messenger to your website** > **Whitelist domain**
 
-:warning: **NOTE:** Facebook doesn't allow to whitelist localhost, so for dev-mode use a wrapper like [ngrok](https://ngrok.com/).
+:warning: **NOTE:** Facebook doesn't allow whitelisting localhost, so for dev-mode use a wrapper like [ngrok](https://ngrok.com/).
 
 ## Usage
 
@@ -40,7 +45,7 @@ ReactDOM.render(
     loggedOutGreeting='Hello stranger!' 
     autoExpand={true} 
     debugMode={false}
-    onMessengerExpand={() => {console.log('onMessengerExpand')}}
+    onMessengerShow={() => {console.log('onMessengerShow')}}
     onMessengerHide={() => {console.log('onMessengerHide')}}
     onMessengerDialogShow={() => {console.log('onMessengerDialogShow')}}
     onMessengerDialogHide={() => {console.log('onMessengerDialogHide')}}
@@ -57,11 +62,11 @@ ReactDOM.render(
 | height (integer) | Pixel height from bottom of the page |     
 | autoExpand (bool) | Smart autoexpanding feature which expands the dialog for each new session. NOTE: Will not expand on refresh or back/forward-load, but will remember UI state |     
 | loggedInGreeting (string) | Greeting message displayed if user is logged in |     
-| loggedOutGreeting (strin) | Greeting message displayed if user is logged out  |     
+| loggedOutGreeting (string) | Greeting message displayed if user is logged out  |     
 | ref (string) |  Addittional context to be passed in requests |     
 | onMessengerMounted (function) | Callback which is called when the messenger chat is mounted |     
 | onMessengerLoad (function) | Callback which is called on load |     
-| onMessengerExpand (function) | Callback which is called when the component is shown. NOTE: missleading name as this handles the whole component not just when the chatbox is expanded   |     
+| onMessengerShow (function) | Callback which is called when the component is shown.   |     
 | onMessengerHide (function)| Callback which is called when the component is hidden    |     
 | onMessengerDialogShow (function)| Callback which is called each time the dialog is expanded  |     
 | onMessengerDialogHide (function)| Callback which is called each time the dialog is hidden   |     
@@ -73,13 +78,13 @@ ReactDOM.render(
 ### MessengerChat control functions
 This package also supports control functions for the messenger chat which can be accessed globally. The control functions will only work after the messenger chat has succesfully mounted.
 ```js
-import MessengerChat, {expandMessenger, hideMessenger, showDialog, hideDialog, setMessengerHeight} from './MessengerChat';
+import MessengerChat, {showMessenger, hideMessenger, showDialog, hideDialog, setMessengerHeight} from './MessengerChat';
 
 function App() {
 
   return (
     <div className="App">
-      <button onClick={() => {expandMessenger(true)}}>expand messenger</button>
+      <button onClick={() => {showMessenger(true)}}>show messenger</button>
       <button onClick={() => {hideMessenger()}}>hide messenger</button>
       <button onClick={() => {showDialog()}}>show dialog</button>
       <button onClick={() => {hideDialog()}}>hide dialog</button>
@@ -98,7 +103,7 @@ export default App;
 | Function        | Description           |
 | ------------- |:-------------:|
 | setMessengerHeight(height: integer)     | Immediately sets height of messenger chat in pixels from bottom of the page |
-| expandMessenger(shouldShowDialog: bool) | Shows the whole component (misleading name since it does not only expand the dialog) |
+| showMessenger(shouldShowDialog: bool) | Shows the whole component |
 | hideMessenger() | Hides the whole component |
 | showDialog() | Expands dialog |
 | hideDialog() | Hides dialog |
