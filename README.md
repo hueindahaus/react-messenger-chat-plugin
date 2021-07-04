@@ -1,34 +1,48 @@
-# react-messenger-chat-plugin
+# react-messenger-chat-plugin :speech_balloon: [![npm](https://img.shields.io/npm/v/react-messenger-chat-plugin.svg)](https://www.npmjs.com/package/react-messenger-chat-plugin) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) ![size](https://img.shields.io/bundlephobia/min/react-messenger-chat-plugin?color=success) ![language](https://img.shields.io/github/languages/top/hueindahaus/react-messenger-chat-plugin?color=ff69b4)
  
- [![npm](https://img.shields.io/npm/v/react-messenger-chat-plugin.svg)](https://www.npmjs.com/package/react-messenger-chat-plugin)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-![size](https://img.shields.io/bundlephobia/min/react-messenger-chat-plugin?color=success)
-![language](https://img.shields.io/github/languages/top/hueindahaus/react-messenger-chat-plugin?color=ff69b4)
+ <p align="center">
+ <img width="220" src="https://user-images.githubusercontent.com/45295311/124386303-16e4b280-dcda-11eb-9470-2ee68e7fc209.png">
+ <img width="220" src="https://user-images.githubusercontent.com/45295311/124386301-164c1c00-dcda-11eb-83fe-aa50c9297a7f.png">
+ <img width="220" height="400" src="https://user-images.githubusercontent.com/45295311/124386300-164c1c00-dcda-11eb-8992-b0b96bf32f53.png">
+ <img width="220" height="400" src="https://user-images.githubusercontent.com/45295311/124386299-15b38580-dcda-11eb-9e3d-19e368d1cfc1.png">
+</p>
 
-![]()
-![]()
+<br />
 
-## Installation 
+## Table of contents
+
+* [Installation](#installation)
+* [Usage](#usage)
+    * [MessengerChat Component](#messenger-chat-component)
+    * [MessengerChat Control Functions](#messenger-chat-control-functions)
+* [Official docs](#official-docs)
+
+<br />
+
+## Installation <a name="installation"/>
+
+First, **whitelist** your domain to be eligible to use the messenger chat in facebooks page settings:
+
+**Facebook page** > **Settings** > **Messaging** (in sidebar) > **Add messenger to your website** > **Whitelist domain**
+
+> :warning: **NOTE:** Facebook doesn't allow whitelisting localhost, so for dev-mode use a wrapper like [ngrok](https://ngrok.com/).
+
+### npm
 ```sh
 npm install react-messenger-chat-plugin
 ```
 
-## Table of contents
+### yarn
 
-* [Requirements](#Requirements)
-* todo
+```sh
+yarn add react-messenger-chat-plugin
+```
 
-## Requirements
+<br />
 
-First, **whitelist** your domain to be eligible to use the messenger chat in facebooks page settings. 
+## Usage <a name="usage" />
 
-> **Facebook page** > **Settings** > **Messaging** (in sidebar) > **Add messenger to your website** > **Whitelist domain**
-
-:warning: **NOTE:** Facebook doesn't allow whitelisting localhost, so for dev-mode use a wrapper like [ngrok](https://ngrok.com/).
-
-## Usage
-
-### MessengerChat
+### MessengerChat Component<a name="messenger-chat-component" />
 
 ```js
 import React from 'react';
@@ -56,7 +70,7 @@ ReactDOM.render(
 
 | Attribute     |  Description       |
 | ------------- |:-------------:|
-| pageId (string) | **Required** field! Id of page which can be found on the facebook page |are neat      |
+| pageId (string) **Required** | Id of page which can be found on the facebook page |are neat      |
 | language (string)  | Language locale, e.g. 'en_US' for english or 'sv_SE' for swedish |
 | themeColor (string) | Hexcode color of the theme color   |
 | height (integer) | Pixel height from bottom of the page |     
@@ -75,7 +89,9 @@ ReactDOM.render(
 
 > :warning: **NOTE:** some attributes can be controlled from your facebook page messenger chat plugin configurations. These are by default overriden by the props, so if you want more control from facebook -> populate less props.
 
-### MessengerChat control functions
+<br />
+
+### MessengerChat Control Functions <a name="messenger-chat-control-functions" />
 This package also supports control functions for the messenger chat which can be accessed globally. The control functions will only work after the messenger chat has succesfully mounted.
 ```js
 import MessengerChat, {showMessenger, hideMessenger, showDialog, hideDialog, setMessengerHeight} from './MessengerChat';
@@ -108,5 +124,7 @@ export default App;
 | showDialog() | Expands dialog |
 | hideDialog() | Hides dialog |
 
-## Official docs
+<br />
+
+## Official docs <a name="official-docs" />
 Facebook provides official docs for [messenger customer chat plugin](https://developers.facebook.com/docs/messenger-platform/discovery/facebook-chat-plugin/) and [chat plugin sdk](https://developers.facebook.com/docs/messenger-platform/discovery/customer-chat-plugin/sdk/) which are the bases for this package.
