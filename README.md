@@ -97,7 +97,7 @@ ReactDOM.render(
 ### MessengerChat Control Functions <a name="messenger-chat-control-functions" />
 This package also supports control functions for the messenger chat which can be accessed globally. The control functions will only work after the messenger chat has succesfully mounted.
 ```js
-import {MessengerChat, showMessenger, hideMessenger, showDialog, hideDialog, setMessengerHeight} from 'react-messenger-customer-chat';
+import { MessengerChat, showMessenger, hideMessenger, showDialog, hideDialog, setMessengerHeight } from 'react-messenger-customer-chat';
 
 function App() {
 
