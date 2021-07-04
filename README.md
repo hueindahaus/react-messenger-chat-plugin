@@ -106,9 +106,7 @@ function App() {
       <button onClick={() => {hideDialog()}}>hide dialog</button>
       <button onclick={() => {setMessengerHeight(100)}}>set chat 100px from bottom<button>
 
-      <MessengerChat 
-        pageId='100580741804518' 
-        />
+      <MessengerChat pageId='123456789101112' />
     </div>
   );
 }
