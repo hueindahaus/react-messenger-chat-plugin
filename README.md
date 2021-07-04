@@ -129,3 +129,8 @@ export default App;
 
 ## Official docs <a name="official-docs" />
 Facebook provides official docs for [messenger customer chat plugin](https://developers.facebook.com/docs/messenger-platform/discovery/facebook-chat-plugin/) and [chat plugin sdk](https://developers.facebook.com/docs/messenger-platform/discovery/customer-chat-plugin/sdk/) which the package is based on.
+
+<br />
+
+## Author
+My name is Alexander Huang and you can find my linkedin [here](https://www.linkedin.com/in/alexander-huang-4370991a3/)! Don't hesitate to contact and thank you for tuning in :raised_hands:
