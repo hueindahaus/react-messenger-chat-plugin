@@ -1,13 +1,13 @@
 # react-messenger-chat-plugin :speech_balloon: [![npm](https://img.shields.io/npm/v/react-messenger-chat-plugin.svg)](https://www.npmjs.com/package/react-messenger-chat-plugin) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) ![size](https://img.shields.io/bundlephobia/min/react-messenger-chat-plugin?color=success) ![language](https://img.shields.io/github/languages/top/hueindahaus/react-messenger-chat-plugin?color=ff69b4)
  
  <p align="center">
- <img width="320" src="https://user-images.githubusercontent.com/45295311/124386303-16e4b280-dcda-11eb-9470-2ee68e7fc209.png">
- <img width="320" src="https://user-images.githubusercontent.com/45295311/124386301-164c1c00-dcda-11eb-83fe-aa50c9297a7f.png">
+ <img width="340" src="https://user-images.githubusercontent.com/45295311/124386303-16e4b280-dcda-11eb-9470-2ee68e7fc209.png">
+ <img width="340" src="https://user-images.githubusercontent.com/45295311/124386301-164c1c00-dcda-11eb-83fe-aa50c9297a7f.png">
 </p>
 
 <p align="center">
- <img width="320" height="600" src="https://user-images.githubusercontent.com/45295311/124386300-164c1c00-dcda-11eb-8992-b0b96bf32f53.png">
- <img width="320" height="600" src="https://user-images.githubusercontent.com/45295311/124386299-15b38580-dcda-11eb-9e3d-19e368d1cfc1.png">
+ <img width="340" height="600" src="https://user-images.githubusercontent.com/45295311/124386300-164c1c00-dcda-11eb-8992-b0b96bf32f53.png">
+ <img width="340" height="600" src="https://user-images.githubusercontent.com/45295311/124386299-15b38580-dcda-11eb-9e3d-19e368d1cfc1.png">
  </p>
 
 <br />
