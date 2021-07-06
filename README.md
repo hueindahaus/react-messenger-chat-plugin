@@ -66,7 +66,7 @@ ReactDOM.render(
     onMessengerHide={() => {console.log('onMessengerHide')}}
     onMessengerDialogShow={() => {console.log('onMessengerDialogShow')}}
     onMessengerDialogHide={() => {console.log('onMessengerDialogHide')}}
-    />;,
+    />;
   document.getElementById('demo')
 );
 ```
