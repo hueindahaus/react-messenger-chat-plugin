@@ -2,8 +2,8 @@
 // Chat plugin: https://developers.facebook.com/docs/messenger-platform/discovery/facebook-chat-plugin/
 
 /* eslint-disable no-undef */
-import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 
 // flag to identify wether or not messenger chat is mounted
 let isMounted = false;
@@ -12,265 +12,297 @@ let isMounted = false;
 let globalDebugModeFlag = false;
 
 export const MessengerChat = ({
-    pageId, 
-    language='en_US',
-    themeColor, 
-    height,
-    autoExpand = true,
-    loggedInGreeting, 
-    loggedOutGreeting, 
-    ref, 
-    onMessengerMounted, 
-    onMessengerLoad,
-    onMessengerShow,
-    onMessengerHide,
-    onMessengerDialogShow,
-    onMessengerDialogHide,
-    debugMode = false,
-    version = 'v11.0',
-
+  pageId,
+  language = "en_US",
+  themeColor,
+  height,
+  autoExpand = true,
+  loggedInGreeting,
+  loggedOutGreeting,
+  ref,
+  onMessengerMounted,
+  onMessengerLoad,
+  onMessengerShow,
+  onMessengerHide,
+  onMessengerDialogShow,
+  onMessengerDialogHide,
+  debugMode = false,
+  version = "v11.0",
 }) => {
-  
-    const initExpand = () => {
-        if(debugMode){
-            console.log('[react-messenger-chat-plugin] expanding on init')
-        }
+  const initExpand = () => {
+    if (debugMode) {
+      console.log("[react-messenger-chat-plugin] expanding on init");
+    }
 
-        try{
-            const cachedChatState = JSON.parse(localStorage.getItem('__fb_chat_plugin'));
-  
-            //https://developer.mozilla.org/en-US/docs/Web/API/PerformanceNavigationTiming/type
-            const samePageNavigation = performance?.getEntriesByType('navigation')[0]?.type !== 'navigate';
-        
-            if (cachedChatState && cachedChatState?.visibility === 'hidden' && !samePageNavigation) {
-                FB.CustomerChat.show();
-            }
-        } catch (err){
-            console.warn('Probblem when autoexpanding messenger chatbox occured. Please file an issue on github.')
-            throw new Error(err);
-        }
-      
-    };
-  
-    const initMessenger = () => {
-        if(debugMode){
-            console.log('[react-messenger-chat-plugin] initializing messenger plugin')
-        }
+    try {
+      const cachedChatState = JSON.parse(
+        localStorage.getItem("__fb_chat_plugin")
+      );
 
-      try {
-        const chatbox = document.getElementById('fb-customer-chat');
+      //https://developer.mozilla.org/en-US/docs/Web/API/PerformanceNavigationTiming/type
+      const samePageNavigation =
+        performance?.getEntriesByType("navigation")[0]?.type !== "navigate";
 
-        chatbox.setAttribute('page_id', pageId);
-        chatbox.setAttribute('attribution', 'biz_inbox');
+      if (
+        cachedChatState &&
+        cachedChatState?.visibility === "hidden" &&
+        !samePageNavigation
+      ) {
+        FB.CustomerChat.show();
+      }
+    } catch (err) {
+      console.warn(
+        "Probblem when autoexpanding messenger chatbox occured. Please file an issue on github."
+      );
+      throw new Error(err);
+    }
+  };
 
-        if(themeColor){
-            chatbox.setAttribute('theme_color', themeColor);
-        }
+  const initMessenger = () => {
+    if (debugMode) {
+      console.log(
+        "[react-messenger-chat-plugin] initializing messenger plugin"
+      );
+    }
 
-        if(loggedInGreeting){
-            chatbox.setAttribute('logged_in_greeting', loggedInGreeting);
-        }
+    try {
+      const chatbox = document.getElementById("fb-customer-chat");
 
-        if(loggedOutGreeting){
-            chatbox.setAttribute('logged_out_greeting', loggedOutGreeting);
-        }
+      chatbox.setAttribute("page_id", pageId);
+      chatbox.setAttribute("attribution", "biz_inbox");
 
-        if(autoExpand){
-            chatbox.setAttribute('greeting_dialog_display', 'show');
-            chatbox.setAttribute('greeting_dialog_delay', 0);
-        } else {
-            chatbox.setAttribute('greeting_dialog_display', 'hide');
-        }
+      if (themeColor) {
+        chatbox.setAttribute("theme_color", themeColor);
+      }
 
+      if (loggedInGreeting) {
+        chatbox.setAttribute("logged_in_greeting", loggedInGreeting);
+      }
 
-        if(ref){
-            chatbox.setAttribute('ref', ref);
-        }
-  
-        window.fbAsyncInit = function () {
-          FB.init({
-            xfbml: true,
-            version: version,
-          });
+      if (loggedOutGreeting) {
+        chatbox.setAttribute("logged_out_greeting", loggedOutGreeting);
+      }
 
-          FB.Event.subscribe('customerchat.load', () => {if(onMessengerLoad) onMessengerLoad()});
+      if (autoExpand) {
+        chatbox.setAttribute("greeting_dialog_display", "show");
+        chatbox.setAttribute("greeting_dialog_delay", 0);
+      } else {
+        chatbox.setAttribute("greeting_dialog_display", "hide");
+      }
 
-          FB.Event.subscribe('xfbml.render', () => {
+      if (ref) {
+        chatbox.setAttribute("ref", ref);
+      }
 
-            // we check if not undefined, since 0 should still be a valid number
-            if(height !== undefined){
-                setMessengerHeight(height)
-            }  
+      window.fbAsyncInit = function () {
+        FB.init({
+          xfbml: true,
+          version: version,
+        });
 
-            //this is necessary to manually open chatbox on init when state (especially visibility=hidden) is cached in localStorage.
-            if(autoExpand){
-                setTimeout(initExpand, 3000);
-            }
+        FB.Event.subscribe("customerchat.load", () => {
+          if (onMessengerLoad) onMessengerLoad();
+        });
 
-            if(onMessengerMounted){
-                onMessengerMounted();
-            }
+        FB.Event.subscribe("xfbml.render", () => {
+          // we check if not undefined, since 0 should still be a valid number
+          if (height !== undefined) {
+            setMessengerHeight(height);
+          }
 
-            isMounted = true;
-          });
+          //this is necessary to manually open chatbox on init when state (especially visibility=hidden) is cached in localStorage.
+          if (autoExpand) {
+            setTimeout(initExpand, 3000);
+          }
 
-          FB.Event.subscribe('customerchat.show', () => {if(onMessengerShow) onMessengerShow()});
+          if (onMessengerMounted) {
+            onMessengerMounted();
+          }
 
-          FB.Event.subscribe('customerchat.hide', () => {if(onMessengerHide) onMessengerHide()});
+          isMounted = true;
+        });
 
-          FB.Event.subscribe('customerchat.dialogShow', () => {if(onMessengerDialogShow) onMessengerDialogShow()});
+        FB.Event.subscribe("customerchat.show", () => {
+          if (onMessengerShow) onMessengerShow();
+        });
 
-          FB.Event.subscribe('customerchat.dialogHide', () => {if(onMessengerDialogHide) onMessengerDialogHide()});
+        FB.Event.subscribe("customerchat.hide", () => {
+          if (onMessengerHide) onMessengerHide();
+        });
 
-        };
-  
-        (function (d, s, id) {
-          let js,
-            // eslint-disable-next-line prefer-const
-            fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
+        FB.Event.subscribe("customerchat.dialogShow", () => {
+          if (onMessengerDialogShow) onMessengerDialogShow();
+        });
+
+        FB.Event.subscribe("customerchat.dialogHide", () => {
+          if (onMessengerDialogHide) onMessengerDialogHide();
+        });
+      };
+
+      (function (d, s, id) {
+        let js,
           // eslint-disable-next-line prefer-const
-          js = d.createElement(s);
-          js.id = id;
-          js.src = `https://connect.facebook.net/${language}/sdk/xfbml.customerchat.js`;
-          fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'facebook-jssdk');
-      } catch (err) {
-        throw (err);
-      }
-    };
-  
-    useEffect(() => {
-      try {
-          globalDebugModeFlag = debugMode;
-        initMessenger();
-      } catch (err) {
-        console.log(err);
-      }
-    });
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        // eslint-disable-next-line prefer-const
+        js = d.createElement(s);
+        js.id = id;
+        js.src = `https://connect.facebook.net/${language}/sdk/xfbml.customerchat.js`;
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, "script", "facebook-jssdk");
+    } catch (err) {
+      throw err;
+    }
+  };
 
-    return (
-      <div>  
-        <div id="fb-root"></div>
-        <div id="fb-customer-chat" className="fb-customerchat"></div>
-      </div>
-    );
+  useEffect(() => {
+    try {
+      globalDebugModeFlag = debugMode;
+      initMessenger();
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  return (
+    <div>
+      <div id="fb-root"></div>
+      <div id="fb-customer-chat" className="fb-customerchat"></div>
+    </div>
+  );
 };
-
 
 //NOTE: THIS IS A VERY HACKY WAY OF MODIFYING ELEMENTS STYLE.
 export const setMessengerHeight = (height) => {
-    if(globalDebugModeFlag){
-        console.log(`[react-messenger-chat-plugin] setting messenger height: ${height}`)
-    }
+  if (globalDebugModeFlag) {
+    console.log(
+      `[react-messenger-chat-plugin] setting messenger height: ${height}`
+    );
+  }
 
-    const tmpIconElement = document.getElementsByClassName('fb_customer_chat_icon');
-    if (tmpIconElement && tmpIconElement.length > 0) {
-      const iconElement = tmpIconElement[0];
-      iconElement.style.bottom = `${height}px`;
-    } else {
-        console.warn('Could not set height of messenger button.')
-    }
+  const tmpIconElement = document.querySelectorAll(
+    "[data-testid='bubble_iframe']"
+  );
 
-    const tmpChatElement = document.getElementsByClassName('anchor_right');
-    if (tmpIconElement && tmpChatElement.length > 0) {
-      const chatElement = tmpChatElement[0];
-      //if window width is md (tailwind) or smaller
-      chatElement.style.bottom = `${height + 56}px`;
-    } else {
-        console.warn('Could not set height of messenger dialog container.')
-    }
+  if (tmpIconElement && tmpIconElement.length > 0) {
+    const iconElement = tmpIconElement[0];
+    iconElement.style.bottom = `${height}px`;
+  } else {
+    console.warn("Could not set height of messenger button.");
+  }
+
+  const tmpChatElement = document.querySelectorAll(
+    "[data-testid='dialog_iframe']"
+  );
+
+  if (tmpIconElement && tmpChatElement.length > 0) {
+    const chatElement = tmpChatElement[0];
+    //if window width is md (tailwind) or smaller
+    chatElement.style.bottom = `${height + 56}px`;
+  } else {
+    console.warn("Could not set height of messenger dialog container.");
+  }
 };
 
 export const showMessenger = (shouldShowDialog) => {
-    if(globalDebugModeFlag){
-        console.log(`[react-messenger-chat-plugin] showing messenger with argument "shouldShowDialog": ${shouldShowDialog}`)
-    }
+  if (globalDebugModeFlag) {
+    console.log(
+      `[react-messenger-chat-plugin] showing messenger with argument "shouldShowDialog": ${shouldShowDialog}`
+    );
+  }
 
-    try {
-        if(isMounted && FB?.CustomerChat){
-            FB.CustomerChat.show(shouldShowDialog);
-        } else if(!isMounted){
-            console.warn('Messenger could not expand messenger due to the messenger chat not beeing mounted yet.')
-        }
-    } catch (err){
-        throw new Error(err);
+  try {
+    if (isMounted && FB?.CustomerChat) {
+      FB.CustomerChat.show(shouldShowDialog);
+    } else if (!isMounted) {
+      console.warn(
+        "Messenger could not expand messenger due to the messenger chat not beeing mounted yet."
+      );
     }
-    
-}
+  } catch (err) {
+    throw new Error(err);
+  }
+};
 
 export const hideMessenger = (shouldShowDialog = false) => {
-    if(globalDebugModeFlag){
-        console.log(`[react-messenger-chat-plugin] hiding messenger with argument`)
-    }
+  if (globalDebugModeFlag) {
+    console.log(`[react-messenger-chat-plugin] hiding messenger with argument`);
+  }
 
-    try {
-        if(isMounted && FB?.CustomerChat){
-            FB.CustomerChat.hide();
-        } else if(!isMounted){
-            console.warn('Messenger could not hide messenger due to the messenger chat not beeing mounted yet.')
-        }
-    } catch (err){
-        throw new Error(err);
+  try {
+    if (isMounted && FB?.CustomerChat) {
+      FB.CustomerChat.hide();
+    } else if (!isMounted) {
+      console.warn(
+        "Messenger could not hide messenger due to the messenger chat not beeing mounted yet."
+      );
     }
-}
+  } catch (err) {
+    throw new Error(err);
+  }
+};
 
 export const showDialog = () => {
-    if(globalDebugModeFlag){
-        console.log(`[react-messenger-chat-plugin] showing dialog`)
-    }
+  if (globalDebugModeFlag) {
+    console.log(`[react-messenger-chat-plugin] showing dialog`);
+  }
 
-    try {
-        if(isMounted && FB?.CustomerChat){
-            FB.CustomerChat.showDialog();
-        } else if(!isMounted){
-            console.warn('Messenger could not show dialog due to the messenger chat not beeing mounted yet.')
-        }
-    } catch (err){
-        throw new Error(err);
+  try {
+    if (isMounted && FB?.CustomerChat) {
+      FB.CustomerChat.showDialog();
+    } else if (!isMounted) {
+      console.warn(
+        "Messenger could not show dialog due to the messenger chat not beeing mounted yet."
+      );
     }
-}
+  } catch (err) {
+    throw new Error(err);
+  }
+};
 
 export const hideDialog = () => {
-    if(globalDebugModeFlag){
-        console.log(`[react-messenger-chat-plugin] hiding dialog`)
-    }
+  if (globalDebugModeFlag) {
+    console.log(`[react-messenger-chat-plugin] hiding dialog`);
+  }
 
-    try {
-        if(isMounted && FB?.CustomerChat){
-            FB.CustomerChat.hideDialog();
-        } else if(!isMounted){
-            console.warn('Messenger could not hide dialog due to the messenger chat not beeing mounted yet.')
-        }
-    } catch (err){
-        throw new Error(err);
+  try {
+    if (isMounted && FB?.CustomerChat) {
+      FB.CustomerChat.hideDialog();
+    } else if (!isMounted) {
+      console.warn(
+        "Messenger could not hide dialog due to the messenger chat not beeing mounted yet."
+      );
     }
-}
+  } catch (err) {
+    throw new Error(err);
+  }
+};
 
 MessengerChat.propTypes = {
-    pageId: PropTypes.string.isRequired,
-    language: PropTypes.string,
-    themeColor: PropTypes.string,
-    height: PropTypes.number,
-    autoExpand: PropTypes.bool,
-    loggedInGreeting: PropTypes.string,
-    loggedOutGreeting: PropTypes.string,
-    ref: PropTypes.string,
-    onMessengerMounted: PropTypes.func,
-    onMessengerLoad: PropTypes.func,
-    onMessengerShow: PropTypes.func,
-    onMessengerHide: PropTypes.func,
-    onMessengerDialogShow: PropTypes.func,
-    onMessengerDialogHide: PropTypes.func,
-    debugMode: PropTypes.bool,
-    version: PropTypes.string,
+  pageId: PropTypes.string.isRequired,
+  language: PropTypes.string,
+  themeColor: PropTypes.string,
+  height: PropTypes.number,
+  autoExpand: PropTypes.bool,
+  loggedInGreeting: PropTypes.string,
+  loggedOutGreeting: PropTypes.string,
+  ref: PropTypes.string,
+  onMessengerMounted: PropTypes.func,
+  onMessengerLoad: PropTypes.func,
+  onMessengerShow: PropTypes.func,
+  onMessengerHide: PropTypes.func,
+  onMessengerDialogShow: PropTypes.func,
+  onMessengerDialogHide: PropTypes.func,
+  debugMode: PropTypes.bool,
+  version: PropTypes.string,
 
-
-    custom: function(props) {
-        console.log(props)
-        const themeColor = props.themeColor;
-        if(themeColor && !/^#(?:[0-9a-fA-F]{3}){1,2}$/.test(themeColor)){
-            return new Error('Invalid hexcolor format on prop: themeColor');
-        }
+  custom: function (props) {
+    if (props.debugMode) {
+      console.log(props);
     }
-}
+    const themeColor = props.themeColor;
+    if (themeColor && !/^#(?:[0-9a-fA-F]{3}){1,2}$/.test(themeColor)) {
+      return new Error("Invalid hexcolor format on prop: themeColor");
+    }
+  },
+};

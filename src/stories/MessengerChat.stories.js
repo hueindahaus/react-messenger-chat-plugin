@@ -1,22 +1,32 @@
-import React from 'react';
-import {storiesOf} from '@storybook/react';
-import {MessengerChat} from '../components/MessengerChat/MessengerChat';
+import React from "react";
+import { storiesOf } from "@storybook/react";
+import { MessengerChat } from "../components/MessengerChat/MessengerChat";
 
-const stories = storiesOf('App Test', module);
+const stories = storiesOf("App Test", module);
 
-stories.add('App', () => {
-    return <MessengerChat 
-    pageId='100580741804518' 
-    language='sv_SE'
-    themeColor={'#000000'} 
-    height={24} 
-    loggedInGreeting='loggedInGreeting' 
-    loggedOutGreeting='loggedOutGreeting' 
-    autoExpand={true} 
-    debugMode={false}
-    onMessengerShow={() => {console.log('onMessengerShow')}}
-    onMessengerHide={() => {console.log('onMessengerHide')}}
-    onMessengerDialogShow={() => {console.log('onMessengerDialogShow')}}
-    onMessengerDialogHide={() => {console.log('onMessengerDialogHide')}}
-    />;
-})
+stories.add("App", () => {
+  return (
+    <MessengerChat
+      pageId="100580741804518"
+      language="sv_SE"
+      themeColor={"#000000"}
+      height={100}
+      loggedInGreeting="loggedInGreeting"
+      loggedOutGreeting="loggedOutGreeting"
+      autoExpand={true}
+      debugMode={false}
+      onMessengerShow={() => {
+        console.log("onMessengerShow");
+      }}
+      onMessengerHide={() => {
+        console.log("onMessengerHide");
+      }}
+      onMessengerDialogShow={() => {
+        console.log("onMessengerDialogShow");
+      }}
+      onMessengerDialogHide={() => {
+        console.log("onMessengerDialogHide");
+      }}
+    />
+  );
+});
