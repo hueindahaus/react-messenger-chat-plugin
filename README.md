@@ -73,8 +73,8 @@ ReactDOM.render(
 ```
 
 | Attribute                        |                                                                         Description                                                                          |
-| -------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------: | -------- |
-| pageId (string) **Required**     |                                                      Id of page which can be found on the facebook page                                                      | are neat |
+| -------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| pageId (string) **Required**     |                                                      Id of page which can be found on the facebook page                                                      |
 | language (string)                |                                               Language locale, e.g. 'en_US' for english or 'sv_SE' for swedish                                               |
 | themeColor (string)              |                                                               Hexcode color of the theme color                                                               |
 | height (integer)                 |                                                             Pixel height from bottom of the page                                                             |
