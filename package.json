@@ -1,9 +1,12 @@
 {
   "name": "react-messenger-chat-plugin",
-  "version": "1.0.9",
+  "version": "2.0.1",
   "description": "A react component for Facebook Messenger Chat Plugin with extra Customer Chat SDK features",
   "main": "dist/index.js",
-  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "directory": "dist"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
@@ -32,10 +35,11 @@
     "@babel/core": "^7.14.6",
     "@babel/preset-react": "^7.14.5",
     "@rollup/plugin-node-resolve": "^13.0.0",
+    "@rollup/plugin-typescript": "^8.3.0",
     "@storybook/addon-actions": "^6.3.2",
     "@storybook/addon-essentials": "^6.3.2",
     "@storybook/addon-links": "^6.3.2",
-    "@storybook/react": "^6.3.2",
+    "@storybook/react": "^6.4.0",
     "babel-loader": "^8.2.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
@@ -47,8 +51,6 @@
   },
   "peerDependencies": {
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "prop-types": "^15.7.2"
-  },
-  "dependencies": {}
+    "react-dom": "^17.0.2"
+  }
 }
