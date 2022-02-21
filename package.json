@@ -1,17 +1,18 @@
 {
   "name": "react-messenger-chat-plugin",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A react component for Facebook Messenger Chat Plugin with extra Customer Chat SDK features",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "publishConfig": {
-    "directory": "dist"
-  },
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "build-lib": "rollup -c"
+    "build-lib": "rollup -c",
+    "pub": "npm run build-lib && npm publish"
   },
   "repository": {
     "type": "git",
