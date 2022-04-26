@@ -1,3 +1,6 @@
+/* eslint-disable no-undef */
+import React, { LegacyRef, useEffect } from "react";
+
 // Customer chat sdk: https://developers.facebook.com/docs/messenger-platform/discovery/customer-chat-plugin/sdk/
 // Chat plugin: https://developers.facebook.com/docs/messenger-platform/discovery/facebook-chat-plugin/
 
@@ -5,8 +8,9 @@ export interface Props {
   pageId: string;
   language?: string;
   themeColor: string;
-  height: number;
-  autoExpand?: boolean;
+  greetingDialogDisplay?: "hide" | "show" | "fade" | "icon";
+  greetingDialogDelay?: number;
+  bottomSpacing?: number;
   loggedInGreeting: string;
   loggedOutGreeting: string;
   onMessengerMounted?: () => void;
@@ -22,8 +26,8 @@ export interface Props {
 export declare const FB: any;
 export declare const window: any;
 
-export interface SetMessengerHeightFunction {
-  (height: number): void;
+export interface SetMessengerBottomSpacingFunction {
+  (bottomSpacing: number): void;
 }
 
 export interface ShowMessengerFunction {
@@ -33,9 +37,6 @@ export interface ShowMessengerFunction {
 export interface HideMessengerFunction extends VoidFunction {}
 export interface ShowDialogFunction extends VoidFunction {}
 export interface HideDialogFunction extends VoidFunction {}
-
-/* eslint-disable no-undef */
-import React, { LegacyRef, useEffect } from "react";
 
 // flag to identify wether or not messenger chat is mounted
 let isMounted = false;
@@ -49,8 +50,9 @@ export const MessengerChat = React.forwardRef<React.FC, Props>(
       pageId,
       language = "en_US",
       themeColor,
-      height,
-      autoExpand = true,
+      bottomSpacing,
+      greetingDialogDisplay,
+      greetingDialogDelay = 0,
       loggedInGreeting,
       loggedOutGreeting,
       onMessengerMounted,
@@ -60,10 +62,11 @@ export const MessengerChat = React.forwardRef<React.FC, Props>(
       onMessengerDialogShow,
       onMessengerDialogHide,
       debugMode = false,
-      version = "v11.0",
+      version = "v13.0",
     },
     ref
   ) => {
+    // [DEPRECATED]
     const initExpand = () => {
       if (debugMode) {
         console.log("[react-messenger-chat-plugin] expanding on init");
@@ -88,7 +91,7 @@ export const MessengerChat = React.forwardRef<React.FC, Props>(
         }
       } catch (err: any) {
         console.warn(
-          "Probblem when autoexpanding messenger chatbox occured. Please file an issue on github."
+          "Problem when autoexpanding messenger chatbox occured. Please file an issue on github."
         );
         throw new Error(err);
       }
@@ -119,18 +122,38 @@ export const MessengerChat = React.forwardRef<React.FC, Props>(
           chatbox.setAttribute("logged_out_greeting", loggedOutGreeting);
         }
 
-        if (autoExpand) {
-          chatbox.setAttribute("greeting_dialog_display", "show");
-          chatbox.setAttribute("greeting_dialog_delay", "0");
-        } else {
-          chatbox.setAttribute("greeting_dialog_display", "hide");
+        if (greetingDialogDisplay) {
+          chatbox.setAttribute(
+            "greeting_dialog_display",
+            greetingDialogDisplay
+          );
         }
 
-        if (height != undefined) {
-          setMessengerHeight(height);
+        if (greetingDialogDelay) {
+          chatbox.setAttribute(
+            "greeting_dialog_delay",
+            greetingDialogDelay.toString()
+          );
         }
 
         window.fbAsyncInit = function () {
+          if (bottomSpacing != undefined) {
+            const css = `
+              .fb_reset {
+                visibility: hidden !important;
+              }
+            `;
+
+            const style = document.createElement("style");
+            document.head.appendChild(style);
+            style.type = "text/css";
+            style.appendChild(document.createTextNode(css));
+
+            FB.Event.subscribe("customerchat.load", () => {
+              setTimeout(() => setMessengerBottomSpacing(bottomSpacing), 1500);
+            });
+          }
+
           FB.init({
             xfbml: true,
             version: version,
@@ -139,14 +162,13 @@ export const MessengerChat = React.forwardRef<React.FC, Props>(
           FB.Event.subscribe("customerchat.load", () => {
             // we check if not undefined, since 0 should still be a valid number
             if (onMessengerLoad) onMessengerLoad();
+
+            if (bottomSpacing != undefined) {
+              setTimeout(() => setMessengerBottomSpacing(bottomSpacing), 1500);
+            }
           });
 
           FB.Event.subscribe("xfbml.render", () => {
-            //this is necessary to manually open chatbox on init when state (especially visibility=hidden) is cached in localStorage.
-            if (autoExpand) {
-              setTimeout(initExpand, 3000);
-            }
-
             if (onMessengerMounted) {
               onMessengerMounted();
             }
@@ -194,7 +216,7 @@ export const MessengerChat = React.forwardRef<React.FC, Props>(
       } catch (err: any) {
         console.log(err);
       }
-    });
+    }, []);
 
     return (
       <div ref={ref as LegacyRef<HTMLDivElement>}>
@@ -205,28 +227,32 @@ export const MessengerChat = React.forwardRef<React.FC, Props>(
   }
 );
 
-//NOTE: THIS IS A VERY HACKY WAY OF MODIFYING ELEMENTS STYLE.
-export const setMessengerHeight: SetMessengerHeightFunction = (height) => {
+export const setMessengerBottomSpacing: SetMessengerBottomSpacingFunction = (
+  bottomSpacing
+) => {
   if (globalDebugModeFlag) {
     console.log(
-      `[react-messenger-chat-plugin] setting messenger height: ${height}`
+      `[react-messenger-chat-plugin] setting messenger bottom spacing: ${bottomSpacing}`
     );
   }
 
   const css = `
-  .fb-customerchat {
-    display: none !important;
-    visibility: hidden !important;
+  .fb_reset {
+    visibility: visible !important;
   }
 
   [data-testid="bubble_iframe"] {
-    bottom: ${height}px !important;
+    visibility: visible !important;
+    bottom: 0 !important;
+    transform: translateY(${-bottomSpacing}px) !important;
+    transition: transform 0.3s !important;
   }
 
   [data-testid='dialog_iframe'] {
-    bottom: ${height + 56}px !important;
+    bottom: ${bottomSpacing + 56}px !important;
   }
   `;
+
   const style = document.createElement("style");
   document.head.appendChild(style);
   style.type = "text/css";

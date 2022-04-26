@@ -1,9 +1,11 @@
+import React from "react";
 export interface Props {
     pageId: string;
     language?: string;
     themeColor: string;
-    height: number;
-    autoExpand?: boolean;
+    greetingDialogDisplay?: "hide" | "show" | "fade" | "icon";
+    greetingDialogDelay?: number;
+    bottomSpacing?: number;
     loggedInGreeting: string;
     loggedOutGreeting: string;
     onMessengerMounted?: () => void;
@@ -17,8 +19,8 @@ export interface Props {
 }
 export declare const FB: any;
 export declare const window: any;
-export interface SetMessengerHeightFunction {
-    (height: number): void;
+export interface SetMessengerBottomSpacingFunction {
+    (bottomSpacing: number): void;
 }
 export interface ShowMessengerFunction {
     (shouldShowDialog: boolean): void;
@@ -29,9 +31,8 @@ export interface ShowDialogFunction extends VoidFunction {
 }
 export interface HideDialogFunction extends VoidFunction {
 }
-import React from "react";
 export declare const MessengerChat: React.ForwardRefExoticComponent<Props & React.RefAttributes<React.FC<{}>>>;
-export declare const setMessengerHeight: SetMessengerHeightFunction;
+export declare const setMessengerBottomSpacing: SetMessengerBottomSpacingFunction;
 export declare const showMessenger: ShowMessengerFunction;
 export declare const hideMessenger: HideMessengerFunction;
 export declare const showDialog: ShowDialogFunction;

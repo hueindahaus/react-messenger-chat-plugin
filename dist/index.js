@@ -1,35 +1,11 @@
 import React, { useEffect } from 'react';
 
-// Customer chat sdk: https://developers.facebook.com/docs/messenger-platform/discovery/customer-chat-plugin/sdk/
+/* eslint-disable no-undef */
 // flag to identify wether or not messenger chat is mounted
 let isMounted = false;
 // added to be able to access debug mode outside component
 let globalDebugModeFlag = false;
-const MessengerChat = React.forwardRef(({ pageId, language = "en_US", themeColor, height, autoExpand = true, loggedInGreeting, loggedOutGreeting, onMessengerMounted, onMessengerLoad, onMessengerShow, onMessengerHide, onMessengerDialogShow, onMessengerDialogHide, debugMode = false, version = "v11.0", }, ref) => {
-    const initExpand = () => {
-        var _a;
-        if (debugMode) {
-            console.log("[react-messenger-chat-plugin] expanding on init");
-        }
-        try {
-            const localStorageObject = localStorage.getItem("__fb_chat_plugin");
-            const cachedChatState = localStorageObject
-                ? JSON.parse(localStorageObject)
-                : null;
-            //https://developer.mozilla.org/en-US/docs/Web/API/PerformanceNavigationTiming/type
-            const samePageNavigation = //@ts-ignore
-             ((_a = performance === null || performance === void 0 ? void 0 : performance.getEntriesByType("navigation")[0]) === null || _a === void 0 ? void 0 : _a.type) !== "navigate";
-            if (cachedChatState &&
-                (cachedChatState === null || cachedChatState === void 0 ? void 0 : cachedChatState.visibility) === "hidden" &&
-                !samePageNavigation) {
-                FB.CustomerChat.show();
-            }
-        }
-        catch (err) {
-            console.warn("Probblem when autoexpanding messenger chatbox occured. Please file an issue on github.");
-            throw new Error(err);
-        }
-    };
+const MessengerChat = React.forwardRef(({ pageId, language = "en_US", themeColor, bottomSpacing, greetingDialogDisplay, greetingDialogDelay = 0, loggedInGreeting, loggedOutGreeting, onMessengerMounted, onMessengerLoad, onMessengerShow, onMessengerHide, onMessengerDialogShow, onMessengerDialogHide, debugMode = false, version = "v13.0", }, ref) => {
     const initMessenger = () => {
         if (debugMode) {
             console.log("[react-messenger-chat-plugin] initializing messenger plugin");
@@ -47,17 +23,27 @@ const MessengerChat = React.forwardRef(({ pageId, language = "en_US", themeColor
             if (loggedOutGreeting) {
                 chatbox.setAttribute("logged_out_greeting", loggedOutGreeting);
             }
-            if (autoExpand) {
-                chatbox.setAttribute("greeting_dialog_display", "show");
-                chatbox.setAttribute("greeting_dialog_delay", "0");
+            if (greetingDialogDisplay) {
+                chatbox.setAttribute("greeting_dialog_display", greetingDialogDisplay);
             }
-            else {
-                chatbox.setAttribute("greeting_dialog_display", "hide");
-            }
-            if (height != undefined) {
-                setMessengerHeight(height);
+            if (greetingDialogDelay) {
+                chatbox.setAttribute("greeting_dialog_delay", greetingDialogDelay.toString());
             }
             window.fbAsyncInit = function () {
+                if (bottomSpacing != undefined) {
+                    const css = `
+              .fb_reset {
+                visibility: hidden !important;
+              }
+            `;
+                    const style = document.createElement("style");
+                    document.head.appendChild(style);
+                    style.type = "text/css";
+                    style.appendChild(document.createTextNode(css));
+                    FB.Event.subscribe("customerchat.load", () => {
+                        setTimeout(() => setMessengerBottomSpacing(bottomSpacing), 1500);
+                    });
+                }
                 FB.init({
                     xfbml: true,
                     version: version,
@@ -66,12 +52,11 @@ const MessengerChat = React.forwardRef(({ pageId, language = "en_US", themeColor
                     // we check if not undefined, since 0 should still be a valid number
                     if (onMessengerLoad)
                         onMessengerLoad();
+                    if (bottomSpacing != undefined) {
+                        setTimeout(() => setMessengerBottomSpacing(bottomSpacing), 1500);
+                    }
                 });
                 FB.Event.subscribe("xfbml.render", () => {
-                    //this is necessary to manually open chatbox on init when state (especially visibility=hidden) is cached in localStorage.
-                    if (autoExpand) {
-                        setTimeout(initExpand, 3000);
-                    }
                     if (onMessengerMounted) {
                         onMessengerMounted();
                     }
@@ -120,28 +105,29 @@ const MessengerChat = React.forwardRef(({ pageId, language = "en_US", themeColor
         catch (err) {
             console.log(err);
         }
-    });
+    }, []);
     return (React.createElement("div", { ref: ref },
         React.createElement("div", { id: "fb-root" }),
         React.createElement("div", { id: "fb-customer-chat", className: "fb-customerchat" })));
 });
-//NOTE: THIS IS A VERY HACKY WAY OF MODIFYING ELEMENTS STYLE.
-const setMessengerHeight = (height) => {
+const setMessengerBottomSpacing = (bottomSpacing) => {
     if (globalDebugModeFlag) {
-        console.log(`[react-messenger-chat-plugin] setting messenger height: ${height}`);
+        console.log(`[react-messenger-chat-plugin] setting messenger bottom spacing: ${bottomSpacing}`);
     }
     const css = `
-  .fb-customerchat {
-    display: none !important;
-    visibility: hidden !important;
+  .fb_reset {
+    visibility: visible !important;
   }
 
   [data-testid="bubble_iframe"] {
-    bottom: ${height}px !important;
+    visibility: visible !important;
+    bottom: 0 !important;
+    transform: translateY(${-bottomSpacing}px) !important;
+    transition: transform 0.3s !important;
   }
 
   [data-testid='dialog_iframe'] {
-    bottom: ${height + 56}px !important;
+    bottom: ${bottomSpacing + 56}px !important;
   }
   `;
     const style = document.createElement("style");
@@ -214,4 +200,4 @@ const hideDialog = () => {
     }
 };
 
-export { MessengerChat, hideDialog, hideMessenger, setMessengerHeight, showDialog, showMessenger };
+export { MessengerChat, hideDialog, hideMessenger, setMessengerBottomSpacing, showDialog, showMessenger };

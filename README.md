@@ -49,47 +49,61 @@ yarn add react-messenger-chat-plugin
 ### MessengerChat Component<a name="messenger-chat-component" />
 
 ```js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { MessengerChat } from 'react-messenger-chat-plugin';
+import React from "react";
+import ReactDOM from "react-dom";
+import { MessengerChat } from "react-messenger-chat-plugin";
 
 ReactDOM.render(
   <MessengerChat
-    pageId='123456789101112'
-    language='en_US'
-    themeColor={'#F2F3G2'}
-    height={24}
-    loggedInGreeting='Hello logged in user!'
-    loggedOutGreeting='Hello stranger!'
-    autoExpand={true}
-    debugMode={false}
-    onMessengerShow={() => {console.log('onMessengerShow')}}
-    onMessengerHide={() => {console.log('onMessengerHide')}}
-    onMessengerDialogShow={() => {console.log('onMessengerDialogShow')}}
-    onMessengerDialogHide={() => {console.log('onMessengerDialogHide')}}
-    />;
-  document.getElementById('demo')
+    pageId="109268111769502"
+    language="sv_SE"
+    themeColor={"#000000"}
+    bottomSpacing={300}
+    loggedInGreeting="loggedInGreeting"
+    loggedOutGreeting="loggedOutGreeting"
+    greetingDialogDisplay={"show"}
+    debugMode={true}
+    onMessengerShow={() => {
+      console.log("onMessengerShow");
+    }}
+    onMessengerHide={() => {
+      console.log("onMessengerHide");
+    }}
+    onMessengerDialogShow={() => {
+      console.log("onMessengerDialogShow");
+    }}
+    onMessengerDialogHide={() => {
+      console.log("onMessengerDialogHide");
+    }}
+    onMessengerMounted={() => {
+      console.log("onMessengerMounted");
+    }}
+    onMessengerLoad={() => {
+      console.log("onMessengerLoad");
+    }}
+  />,
+  document.getElementById("demo")
 );
 ```
 
-| Attribute                        |                                                                         Description                                                                          |
-| -------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| pageId (string) **Required**     |                                                      Id of page which can be found on the facebook page                                                      |
-| language (string)                |                                               Language locale, e.g. 'en_US' for english or 'sv_SE' for swedish                                               |
-| themeColor (string)              |                                                               Hexcode color of the theme color                                                               |
-| height (integer)                 |                                                             Pixel height from bottom of the page                                                             |
-| autoExpand (bool)                | Smart autoexpanding feature which expands the dialog for each new session. NOTE: Will not expand on refresh or back/forward-load, but will remember UI state |
-| loggedInGreeting (string)        |                                                       Greeting message displayed if user is logged in                                                        |
-| loggedOutGreeting (string)       |                                                       Greeting message displayed if user is logged out                                                       |
-| ref (string)                     |                                                         Addittional context to be passed in requests                                                         |
-| onMessengerMounted (function)    |                                                 Callback which is called when the messenger chat is mounted                                                  |
-| onMessengerLoad (function)       |                                                               Callback which is called on load                                                               |
-| onMessengerShow (function)       |                                                    Callback which is called when the component is shown.                                                     |
-| onMessengerHide (function)       |                                                    Callback which is called when the component is hidden                                                     |
-| onMessengerDialogShow (function) |                                                  Callback which is called each time the dialog is expanded                                                   |
-| onMessengerDialogHide (function) |                                                   Callback which is called each time the dialog is hidden                                                    |
-| debugMode (bool)                 |                                              Enables debug mode which console.logs every event in the component                                              |
-| version                          |                                                                Version of the messenger chat                                                                 |
+| Attribute                        |                                             Description                                             | Default |
+| -------------------------------- | :-------------------------------------------------------------------------------------------------: | :-----: |
+| pageId (string) **Required**     |                         Id of page which can be found on the facebook page                          |         |
+| language (string)                |                  Language locale, e.g. 'en_US' for english or 'sv_SE' for swedish                   | "en_US" |
+| themeColor (string)              |                                  Hexcode color of the theme color                                   |         |
+| bottomSpacing (number)           |                                         Bottom spacing (px)                                         |         |
+| greetingDialogDisplay (string)   |                        Determine how the greeting dialog will be displayed.                         |         |
+| greetingDialogDelay (number)     | Sets the number of seconds of delay before the greeting dialog is shown after the plugin is loaded. |    0    |
+| loggedInGreeting (string)        |                           Greeting message displayed if user is logged in                           |         |
+| loggedOutGreeting (string)       |                          Greeting message displayed if user is logged out                           |         |
+| onMessengerMounted (function)    |                     Callback which is called when the messenger chat is mounted                     |         |
+| onMessengerLoad (function)       |                                  Callback which is called on load                                   |         |
+| onMessengerShow (function)       |                        Callback which is called when the component is shown.                        |         |
+| onMessengerHide (function)       |                        Callback which is called when the component is hidden                        |         |
+| onMessengerDialogShow (function) |                      Callback which is called each time the dialog is expanded                      |         |
+| onMessengerDialogHide (function) |                       Callback which is called each time the dialog is hidden                       |         |
+| debugMode (bool)                 |                 Enables debug mode which console.logs every event in the component                  |  false  |
+| version                          |                                    Version of the messenger chat                                    | "v13.0" |
 
 > :warning: **NOTE:** some attributes can be controlled from your facebook page messenger chat plugin configurations. These are by default overriden by the props, so if you want more control from facebook -> populate less props.
 
@@ -110,7 +124,7 @@ function App() {
       <button onClick={() => {hideMessenger()}}>hide messenger</button>
       <button onClick={() => {showDialog()}}>show dialog</button>
       <button onClick={() => {hideDialog()}}>hide dialog</button>
-      <button onclick={() => {setMessengerHeight(100)}}>set chat 100px from bottom<button>
+      <button onclick={() => {setMessengerBottomSpacing(100)}}>set chat 100px in bottom spacing<button>
 
       <MessengerChat pageId='123456789101112' />
     </div>
@@ -120,13 +134,13 @@ function App() {
 export default App;
 ```
 
-| Function                              |                                 Description                                 |
-| ------------------------------------- | :-------------------------------------------------------------------------: |
-| setMessengerHeight(height: integer)   | Immediately sets height of messenger chat in pixels from bottom of the page |
-| showMessenger(shouldShowDialog: bool) |                          Shows the whole component                          |
-| hideMessenger()                       |                          Hides the whole component                          |
-| showDialog()                          |                               Expands dialog                                |
-| hideDialog()                          |                                Hides dialog                                 |
+| Function                                   |                                 Description                                 |
+| ------------------------------------------ | :-------------------------------------------------------------------------: |
+| setMessengerBottomSpacing(spacing: number) | Immediately sets height of messenger chat in pixels from bottom of the page |
+| showMessenger(shouldShowDialog: bool)      |                          Shows the whole component                          |
+| hideMessenger()                            |                          Hides the whole component                          |
+| showDialog()                               |                               Expands dialog                                |
+| hideDialog()                               |                                Hides dialog                                 |
 
 <br />
 
