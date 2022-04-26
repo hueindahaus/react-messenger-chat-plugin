@@ -124,7 +124,7 @@ function App() {
       <button onClick={() => {hideMessenger()}}>hide messenger</button>
       <button onClick={() => {showDialog()}}>show dialog</button>
       <button onClick={() => {hideDialog()}}>hide dialog</button>
-      <button onclick={() => {setMessengerBottomSpacing(100)}}>set chat 100px in bottom spacing<button>
+      <button onclick={() => {setMessengerBottomSpacing(100)}}>set 100px in bottom spacing<button>
 
       <MessengerChat pageId='123456789101112' />
     </div>
