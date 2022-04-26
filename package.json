@@ -1,6 +1,6 @@
 {
   "name": "react-messenger-chat-plugin",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "A react component for Facebook Messenger Chat Plugin with extra Customer Chat SDK features",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
