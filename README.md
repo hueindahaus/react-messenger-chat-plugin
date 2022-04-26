@@ -92,7 +92,7 @@ ReactDOM.render(
 | language (string)                |                  Language locale, e.g. 'en_US' for english or 'sv_SE' for swedish                   | "en_US" |
 | themeColor (string)              |                                  Hexcode color of the theme color                                   |         |
 | bottomSpacing (number)           |                                         Bottom spacing (px)                                         |         |
-| greetingDialogDisplay (string)   |                        Determine how the greeting dialog will be displayed.                         |         |
+| greetingDialogDisplay (string)   |     Determine how the greeting dialog will be displayed. One of "hide", "show", "fade", "icon"      |         |
 | greetingDialogDelay (number)     | Sets the number of seconds of delay before the greeting dialog is shown after the plugin is loaded. |    0    |
 | loggedInGreeting (string)        |                           Greeting message displayed if user is logged in                           |         |
 | loggedOutGreeting (string)       |                          Greeting message displayed if user is logged out                           |         |
