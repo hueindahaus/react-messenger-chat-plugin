@@ -7,12 +7,12 @@ import React, { LegacyRef, useEffect } from "react";
 export interface Props {
   pageId: string;
   language?: string;
-  themeColor: string;
+  themeColor?: string;
   greetingDialogDisplay?: "hide" | "show" | "fade" | "icon";
   greetingDialogDelay?: number;
   bottomSpacing?: number;
-  loggedInGreeting: string;
-  loggedOutGreeting: string;
+  loggedInGreeting?: string;
+  loggedOutGreeting?: string;
   onMessengerMounted?: () => void;
   onMessengerLoad?: () => void;
   onMessengerShow?: () => void;
